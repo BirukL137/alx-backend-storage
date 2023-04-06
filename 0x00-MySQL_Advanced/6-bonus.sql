@@ -6,8 +6,10 @@
 
 DELIMITER $$
 CREATE PROCEDURE AddBonus (
-    IN user_id INT, IN project_name VARCHAR(255), IN score DECIMAL(10, 2)
-);
+    IN user_id INT,
+    IN project_name VARCHAR(255),
+    IN score DECIMAL(10, 2)
+)
 BEGIN
   DECLARE project_id INT;
   
