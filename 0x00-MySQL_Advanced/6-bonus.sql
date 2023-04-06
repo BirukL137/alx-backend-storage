@@ -1,4 +1,4 @@
--- Tis script creates a stored procedure AddBonus
+-- This script creates a stored procedure AddBonus
 -- that adds a new correction for a student.
 -- Check if project_name exists in the projects table
 -- If project_name doesn't exist, create it and get the new id
