@@ -5,14 +5,12 @@ Log stats
 
 from pymongo import MongoClient
 
-
 if __name__ == "__main__":
     """
     This script provides some stats about Nginx logs stored in MongoDB
     """
     client = MongoClient('mongodb://127.0.0.1:27017')
-    db = client.logs
-    collection = db.nginx
+    collection = client.logs.nginx
 
     # c logs where c is the number of documents in this collection
     c_log = collection.count_documents({})
