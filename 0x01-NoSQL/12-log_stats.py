@@ -5,6 +5,7 @@ Log stats
 
 from pymongo import MongoClient
 
+
 if __name__ == "__main__":
     """
     This script provides some stats about Nginx logs stored in MongoDB
