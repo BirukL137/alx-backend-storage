@@ -14,7 +14,7 @@ if __name__ == "__main__":
     db = client.logs
     collection = db.nginx
 
-    # x logs where x is the number of documents in this collection
+    # c logs where c is the number of documents in this collection
     c_log = collection.count_documents({})
     print(f"{c_log} logs")
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     for method in methods:
         colls = collection.count_documents({'method': method})
-        print(f"\t{method}: {colls}")
+        print(f"\tmethod {method}: {colls}")
 
     # number of documents with method=GET path=/status
     status = collection.count_documents({'method': 'GET', 'path': '/status'})
