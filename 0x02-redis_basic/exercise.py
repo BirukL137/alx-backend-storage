@@ -5,7 +5,7 @@ Writing strings to Redis
 
 import redis
 from uuid import uuid4
-from typing import Union
+from typing import Union, Callable, Optional
 
 class Cache:
     """
@@ -35,3 +35,43 @@ class Cache:
         key = str(uuid4())
         self._redis.set(key, data)
         return key
+
+    def get(self, key: str, fn: Optional[Callable] = None) -> Optional[str]:
+        """
+        Retrieve data from Redis using the specified key.
+
+        Args:
+            key (str): The key used to retrieve data from Redis.
+            fn (Optional[Callable]): An optional callable used to convert the data back to the desired format.
+
+        Returns:
+            Optional[str]: The data retrieved from Redis as a string.
+        """
+        data = self._redis.get(key)
+        if data is not None and fn is not None:
+            return fn(data)
+        return data
+
+    def get_str(self, key: str) -> Optional[str]:
+        """
+        Retrieve string data from Redis using the specified key.
+
+        Args:
+            key (str): The key used to retrieve string data from Redis.
+
+        Returns:
+            Optional[str]: The string data retrieved from Redis.
+        """
+        return self.get(key)
+
+    def get_int(self, key: str) -> Optional[int]:
+        """
+        Retrieve integer data from Redis using the specified key.
+
+        Args:
+            key (str): The key used to retrieve integer data from Redis.
+
+        Returns:
+            Optional[int]: The integer data retrieved from Redis.
+        """
+        return self.get(key, fn=int)
