@@ -5,16 +5,19 @@ Implementing an expiring web cache and tracker
 
 import redis
 import requests
+import functools
 from time import time
+from typing import Callable
 
 cache = {}
 
 
-def cache_decorator(func):
+def cache_decorator(func: Callable) -> Callable:
     """
     cache decorator function
     """
-    def wrapper(url):
+    @functools.wraps(func)
+    def wrapper(url: str) -> str:
         """
         This function will track how many times a particular URL
         was accessed in the key "count:{url}" and cache the result
@@ -39,3 +42,7 @@ def get_page(url: str) -> str:
 
     response = requests.get(url)
     return response.content
+
+
+if __name__ == "__main__":
+    get_page('http://slowwly.robertomurray.co.uk')
