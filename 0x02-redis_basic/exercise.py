@@ -59,10 +59,11 @@ def replay(fn: Callable):
     Displays the history of calls of a particular function.
     """
 
+    rds = redis.Redis()
     inputs_k = f"{fn.__qualname__}:inputs"
     outputs_k = f"{fn.__qualname__}:outputs"
-    inputs = cache._redis.lrange(inputs_k, 0, -1)
-    outputs = cache._redis.lrange(outputs_k, 0, -1)
+    inputs = rds._redis.lrange(inputs_k, 0, -1)
+    outputs = rds._redis.lrange(outputs_k, 0, -1)
     print(f"{fn._qualname__} was called {len(inputs)} times: ")
     for i, out in zip(inputs, outputs):
         print(f"{fn.qualname__}(*{i.decode()}) -> {out.decode()}")
