@@ -4,6 +4,7 @@ Task 0. Writing strings to Redis
 Task 1. Reading from Redis and recovering original type
 Task 2. Incrementing values
 Task 3. Storing lists
+Task 4. Retrieving lists
 """
 
 import redis
@@ -51,6 +52,20 @@ def call_history(method: Callable) -> Callable:
         self._redis.rpush(outputs_k, output)
         return output
     return wrapper
+
+
+def replay(fn: Callable):
+    """
+    Displays the history of calls of a particular function.
+    """
+
+    inputs_k = f"{fn.__qualname__}:inputs"
+    outputs_k = f"{fn.__qualname__}:outputs"
+    inputs = cache._redis.lrange(inputs_k, 0, -1)
+    outputs = cache._redis.lrange(outputs_k, 0, -1)
+    print(f"{fn._qualname__} was called {len(inputs)} times: ")
+    for i, out in zip(inputs, outputs):
+        print(f"{fn.qualname__}(*{i.decode()}) -> {out.decode()}")
 
 
 class Cache:
