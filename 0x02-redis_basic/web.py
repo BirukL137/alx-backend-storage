@@ -12,18 +12,18 @@ from typing import Callable
 cache = {}
 
 
-def cache_decorator(func: Callable) -> Callable:
+def cache_decorator(method: Callable) -> Callable:
     """
     cache decorator function
     """
-    @functools.wraps(func)
+    @functools.wraps(method)
     def wrapper(url: str) -> str:
         """
         This function will track how many times a particular URL
         was accessed in the key "count:{url}" and cache the result
         with an expiration time of 10 seconds.
         """
-        
+
         if url in cache and time() - cache[url]['time'] < 10:
             cache[url]['count'] += 1
             return cache[url]['content']
@@ -34,12 +34,12 @@ def cache_decorator(func: Callable) -> Callable:
             return content
         return wrapper
 
+
 @cache_decorator
 def get_page(url: str) -> str:
     """
-    Returns response content 
+    Returns response content
     """
 
     response = requests.get(url)
     return response.content
-
